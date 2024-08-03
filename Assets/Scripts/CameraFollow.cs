@@ -2,15 +2,22 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-      Vector3 _offset = new Vector3(0f, 0f, -10f);
-     float _smoothTime = 0.25f;
-     Vector3 _velocity = Vector3.zero;
+    [SerializeField]  Transform target; // კამერის მიზანი (თქვენი პერსონაჟი)
+    [SerializeField]  Vector3 offset; // პერსონაჟისგან კამერის დაშორება
+    [SerializeField]  float smoothSpeed = 0.125f; // კამერის მოძრაობის smooth 
 
-    [SerializeField] private Transform target;
-
-    private void Update()
+    void FixedUpdate()
     {
-        Vector3 targetPosition = target.position + _offset;
-        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, _smoothTime);
+        if (target != null)
+        {
+            // სასურველი პოზიციის გამოთვლა
+            Vector3 desiredPosition = target.position + offset;
+            
+            // smooth მოძრაობის გამოთვლა
+            Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+            
+            // კამერის ახალი პოზიციის დადგენა
+            transform.position = smoothedPosition;
+        }
     }
 }
