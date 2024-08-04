@@ -2,14 +2,16 @@ using UnityEngine;
 
 public class PogoStickController : MonoBehaviour
 {
-    [SerializeField] public float jumpForce = 10f;
-    [SerializeField] private float _rotationSpeed = 5f;
-    [SerializeField] private Transform _groundCheck;
-    [SerializeField] private float _groundCheckRadius = 0.2f;
-    [SerializeField] private LayerMask _groundLayer;
+    [SerializeField]  float jumpForce = 10f;
+    [SerializeField]  float _rotationSpeed = 5f;
+    [SerializeField]  Transform _groundCheck;
+    [SerializeField]  float _groundCheckRadius = 0.2f;
+    [SerializeField]  LayerMask _groundLayer;
+    [SerializeField]  ParticleSystem _groundParticles; // მიწაზე მოხვედრის ნაწილაკები
 
-    private Rigidbody2D _rb;
-    private bool _isGrounded;
+     Rigidbody2D _rb;
+     bool _isGrounded;
+     bool _wasGrounded; // წინა მიწაზე ყოფნის მდგომარეობა
 
     void Start()
     {
@@ -21,10 +23,17 @@ public class PogoStickController : MonoBehaviour
         RotateTowardsMouse();
         CheckGround();
 
+        if (_isGrounded && !_wasGrounded)
+        {
+            PlayGroundParticles(); // მიწაზე მოხვედრის ნაწილაკების გაშვება
+        }
+
         if (_isGrounded)
         {
             Jump();
         }
+
+        _wasGrounded = _isGrounded; // განახლება წინა მიწაზე ყოფნის მდგომარეობის
     }
 
     void Jump()
@@ -45,5 +54,13 @@ public class PogoStickController : MonoBehaviour
     void CheckGround()
     {
         _isGrounded = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _groundLayer);
+    }
+
+    void PlayGroundParticles()
+    {
+        if (_groundParticles != null)
+        {
+            _groundParticles.Play(); // ნაწილაკების გაშვება
+        }
     }
 }
