@@ -39,9 +39,24 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: lastback
+    uniqueID: 2687309239
+    locked: 0
+  - name: Backnocloider
+    uniqueID: 1157142765
+    locked: 0
+  - name: Back
+    uniqueID: 866953971
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: MIddle
+    uniqueID: 1232454707
+    locked: 0
   - name: Actor
     uniqueID: 2977143149
+    locked: 0
+  - name: front
+    uniqueID: 445893009
     locked: 0
