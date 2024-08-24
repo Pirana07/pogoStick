@@ -26,10 +26,7 @@ public class CrashDetector : MonoBehaviour
         {
             HandleCrash();
         }
-        else if (other.CompareTag("Ceiling") && !_hasCrashed)
-        {
-            HandleHeadImpact();
-        }
+       
     }
 
     void HandleCrash()
@@ -41,11 +38,7 @@ public class CrashDetector : MonoBehaviour
         Invoke("SceneReload", _wait);
     }
 
-    void HandleHeadImpact()
-    {
-        Debug.Log("Head Impact!");
-        PlayHeadImpactEffects();  // თავსარტყმის ეფექტების გაშვება
-    }
+    
 
     void PlayBloodParticles()
     {
@@ -55,25 +48,7 @@ public class CrashDetector : MonoBehaviour
         }
     }
 
-    void PlayHeadImpactEffects()
-    {
-        if (_headImpactParticles != null)
-        {
-            _headImpactParticles.Play(); // თავსარტყმის ნაწილაკების გაშვება
-        }
-
-        if (_audioSource != null && _headImpactSound != null)
-        {
-            _audioSource.PlayOneShot(_headImpactSound); // თავსარტყმის ხმის გაშვება
-        }
-
-        if (_cameraShake != null)
-        {
-            _cameraShake.Shake(); // კამერის სეიკის გაშვება
-        }
-
-        // აქ შეგიძლიათ დაამატოთ ნებისმიერი სხვა ეფექტი, რომელიც გსურთ.
-    }
+    
 
     void SceneReload()
     {
