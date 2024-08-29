@@ -90,8 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5d20ddf085b1eb46bb944499ea4d2f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 2165299311355354648}
-  anim: 
+  animator: {fileID: 0}
 --- !u!1 &6744769970549222960
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,7 +102,6 @@ GameObject:
   - component: {fileID: 6452460390894334873}
   - component: {fileID: 8861614642510203280}
   - component: {fileID: 235031642914566082}
-  - component: {fileID: 2165299311355354648}
   m_Layer: 6
   m_Name: rockanim
   m_TagString: Ground
@@ -410,24 +408,3 @@ PolygonCollider2D:
       - {x: -0.5372405, y: -2.4460723}
       - {x: -0.42328042, y: -2.4379325}
   m_UseDelaunayMesh: 0
---- !u!95 &2165299311355354648
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6744769970549222960}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 48324b096bdaf004ba7c26f6ff08dd62, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0

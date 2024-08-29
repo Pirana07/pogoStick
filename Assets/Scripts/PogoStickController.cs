@@ -8,7 +8,6 @@ public class PogoStickController : MonoBehaviour
     [SerializeField]  float _groundCheckRadius = 0.2f;
     [SerializeField]  LayerMask _groundLayer;
     [SerializeField]  ParticleSystem _groundImpactParticles; // მიწაზე შეჯახების ნაწილაკები
-    [SerializeField]  CameraShake _cameraShake; // კამერის სეიკის სკრიპტი
 
      Rigidbody2D _rb;
      bool _isGrounded;
@@ -39,12 +38,6 @@ public class PogoStickController : MonoBehaviour
     {
         Vector2 jumpDirection = transform.up;
         _rb.velocity = new Vector2(jumpDirection.x * jumpForce, jumpDirection.y * jumpForce);
-
-        // Trigger camera shake on jump
-        if (_cameraShake != null)
-        {
-            _cameraShake.Shake();
-        }
     }
 
     void RotateTowardsMouse()
