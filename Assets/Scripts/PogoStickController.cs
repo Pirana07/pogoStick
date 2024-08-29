@@ -2,15 +2,16 @@ using UnityEngine;
 
 public class PogoStickController : MonoBehaviour
 {
-    [SerializeField]  float jumpForce = 10f;
-    [SerializeField]  float _rotationSpeed = 5f;
-    [SerializeField]  Transform _groundCheck;
-    [SerializeField]  float _groundCheckRadius = 0.2f;
-    [SerializeField]  LayerMask _groundLayer;
-    [SerializeField]  ParticleSystem _groundImpactParticles; // მიწაზე შეჯახების ნაწილაკები
+    [SerializeField] private float jumpForce = 10f;
+    [SerializeField] private float _rotationSpeed = 5f;
+    [SerializeField] private Transform _groundCheck;
+    [SerializeField] private float _groundCheckRadius = 0.2f;
+    [SerializeField] private LayerMask _groundLayer;
+    [SerializeField] private ParticleSystem _groundImpactParticles; // მიწაზე შეჯახების ნაწილაკები
 
-     Rigidbody2D _rb;
-     bool _isGrounded;
+
+    private Rigidbody2D _rb;
+    private bool _isGrounded;
 
     void Start()
     {
@@ -68,4 +69,6 @@ public class PogoStickController : MonoBehaviour
             _groundImpactParticles.Play();
         }
     }
+
+  
 }
