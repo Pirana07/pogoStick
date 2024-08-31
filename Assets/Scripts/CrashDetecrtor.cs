@@ -1,57 +1,48 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class CrashDetector : MonoBehaviour
 {
-    [SerializeField]  float _wait = 0.01f;  // სცენის გადატვირთვის წინ შესამოწმებელი დრო
-    [SerializeField]  ParticleSystem _bloodParticles; // სისხლის ნაწილაკები
-    [SerializeField]  ParticleSystem _headImpactParticles; // თავსარტყმის ნაწილაკები
-    [SerializeField]  AudioClip _headImpactSound; // თავსარტყმის ხმა
-    [SerializeField]  AudioSource _audioSource; // აუდიო წყარო
-    [SerializeField]  CameraShake _cameraShake; // კამერის სეიკის სკრიპტი
-    
-     bool _hasCrashed = false;
-     PogoStickController _controller;
+    [SerializeField] private float waitTime = 0.01f; // Time to wait before reloading the scene
+    [SerializeField] private ParticleSystem bloodParticles; // Blood particles
+    [SerializeField] private DeathMenu deathMenu; // Reference to the DeathMenu script
+
+    private bool hasCrashed = false;
+    private PogoStickController controller;
 
     void Start()
     {
-        _controller = GetComponent<PogoStickController>();
+        controller = GetComponent<PogoStickController>();
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Ground") && !_hasCrashed)
+        if (other.CompareTag("Ground") && !hasCrashed)
         {
             HandleCrash();
         }
-       
     }
 
     void HandleCrash()
     {
-        _hasCrashed = true;
+        hasCrashed = true;
         Debug.Log("Ouch!");
-        _controller.enabled = false;  // PogoStickController-ის გათიშვა
-        PlayBloodParticles();  // სისხლის ნაწილაკების გაშვება
-        Invoke("SceneReload", _wait);
+        controller.enabled = false; // Disable PogoStickController
+        PlayBloodParticles(); // Play blood particles
+        Vector3 respawnPosition = transform.position; // Save current position for respawn
+        deathMenu.TriggerDeath(respawnPosition); // Trigger the death menu
     }
-
-    
 
     void PlayBloodParticles()
     {
-        if (_bloodParticles != null)
+        if (bloodParticles != null)
         {
-            _bloodParticles.Play(); // სისხლის ნაწილაკების გაშვება
+            bloodParticles.Play(); // Play blood particles
         }
     }
 
-    
-
-    void SceneReload()
+    public void ResetCrashStatus()
     {
-        SceneManager.LoadScene(0);
+        hasCrashed = false; // Reset the crash status
     }
 }
