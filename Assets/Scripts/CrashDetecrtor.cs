@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class CrashDetector : MonoBehaviour
 {
-    [SerializeField] private float waitTime = 0.01f; // Time to wait before reloading the scene
     [SerializeField] private ParticleSystem bloodParticles; // Blood particles
     [SerializeField] private DeathMenu deathMenu; // Reference to the DeathMenu script
 
