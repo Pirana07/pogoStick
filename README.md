@@ -4,4 +4,3 @@ Gameplay: In this game, you control a character equipped with a pogo stick, and 
  ------------------------------------- 
 Development: This project is a work in progress and is being actively developed. We welcome contributions, bug reports, and feedback. Whether you're a player with suggestions or a developer interested in contributing to the project, your input is highly valued.
  ------------------------------------- 
-Acknowledgments: Special thanks to everyone who provided feedback and playtested the game during its development. Your insights have been invaluable!
