@@ -34,7 +34,6 @@ public class DeathMenu : MonoBehaviour
         player.transform.rotation = Quaternion.Euler(0, 0, 0); // Reset the player's z-rotation
         deathMenuUI.SetActive(false); // Hide the death menu
         HideBloodParticles(); // Hide the blood particles
-        gameTimer.ResetTimer(); // Optionally reset the timer if desired
         
         // Re-enable the pogo stick controller and reset crash status
         PogoStickController controller = player.GetComponent<PogoStickController>();
@@ -47,6 +46,8 @@ public class DeathMenu : MonoBehaviour
                 crashDetector.ResetCrashStatus(); // Reset the crash status
             }
         }
+
+        gameTimer.ResetTimer(); // Continue the timer from the last saved point
     }
 
     public void RestartLevel()

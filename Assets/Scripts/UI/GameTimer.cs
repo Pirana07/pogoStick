@@ -3,15 +3,17 @@ using TMPro;
 
 public class GameTimer : MonoBehaviour
 {
-    public TextMeshProUGUI gameTimerText; // Timer in the game HUD
-    public TextMeshProUGUI pauseMenuTimerText; // Timer in the pause menu
+    [SerializeField] private TextMeshProUGUI gameTimerText; // Timer in the game HUD
+    [SerializeField] private TextMeshProUGUI pauseMenuTimerText; // Timer in the pause menu
 
     private float startTime;
+    private float elapsedTime;
     private bool isRunning = true;
 
     void Start()
     {
         startTime = Time.time;
+        elapsedTime = 0f;
         pauseMenuTimerText.gameObject.SetActive(false); // Initially hide the pause menu timer
     }
 
@@ -19,7 +21,8 @@ public class GameTimer : MonoBehaviour
     {
         if (isRunning)
         {
-            float elapsedTime = Time.time - startTime;
+            // Calculate the elapsed time
+            elapsedTime = Time.time - startTime;
             UpdateTimerDisplay(elapsedTime);
         }
     }
@@ -40,11 +43,13 @@ public class GameTimer : MonoBehaviour
     public void StopTimer()
     {
         isRunning = false;
+        // Store the elapsed time when stopping
+        elapsedTime = Time.time - startTime;
     }
 
     public void ResetTimer()
     {
-        startTime = Time.time;
+        startTime = Time.time - elapsedTime; // Set the start time to the point of the last elapsed time
         isRunning = true;
     }
 
@@ -62,13 +67,6 @@ public class GameTimer : MonoBehaviour
 
     public float GetElapsedTime()
     {
-        if (isRunning)
-        {
-            return Time.time - startTime;
-        }
-        else
-        {
-            return Time.time - startTime; // Return the last elapsed time when stopped
-        }
+        return elapsedTime;
     }
 }

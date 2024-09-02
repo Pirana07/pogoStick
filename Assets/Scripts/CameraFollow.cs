@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
+    
     [SerializeField] private Transform _target; // კამერის მიზანი (თქვენი პერსონაჟი)
     [SerializeField] private Vector3 _offset; // პერსონაჟისგან კამერის დაშორება
     [SerializeField] private float _smoothSpeed = 0.125f; // კამერის მოძრაობის smooth 
