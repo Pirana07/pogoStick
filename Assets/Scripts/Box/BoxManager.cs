@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
 
 public class BoxManager : MonoBehaviour
 {
@@ -81,8 +83,38 @@ public class BoxManager : MonoBehaviour
         PlayerPrefs.SetString(AwardedBoxesKey, awardedBoxes);
     }
 
+    public Dictionary<BoxType, int> GetAwardedBoxCounts()
+    {
+        string awardedBoxes = PlayerPrefs.GetString(AwardedBoxesKey, "");
+        string[] boxes = awardedBoxes.Split(new[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries);
+
+        Dictionary<BoxType, int> boxCounts = new Dictionary<BoxType, int>();
+        foreach (BoxType boxType in boxTypes)
+        {
+            boxCounts[boxType] = boxes.Count(box => box.Equals(boxType.ToString()));
+        }
+
+        return boxCounts;
+    }
+
     public string GetAwardedBoxes()
     {
         return PlayerPrefs.GetString(AwardedBoxesKey, "No boxes awarded yet.");
+    }
+
+    public void RemoveBox(BoxType boxType)
+    {
+        string awardedBoxes = PlayerPrefs.GetString(AwardedBoxesKey, "");
+        string[] boxes = awardedBoxes.Split(new[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries);
+
+        List<string> boxList = new List<string>(boxes);
+        if (boxList.Contains(boxType.ToString()))
+        {
+            boxList.Remove(boxType.ToString()); // Remove only the first occurrence
+        }
+
+        awardedBoxes = string.Join(",", boxList);
+
+        PlayerPrefs.SetString(AwardedBoxesKey, awardedBoxes);
     }
 }
