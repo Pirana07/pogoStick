@@ -6,17 +6,19 @@ public class FinishLine : MonoBehaviour
     [SerializeField] private GameObject finishMenuUI;
     [SerializeField] private TextMeshProUGUI finalTimeText;
     [SerializeField] private TextMeshProUGUI respawnCountText;
-    [SerializeField] private TextMeshProUGUI boxAwardedText; // New text field for showing awarded box
+    [SerializeField] private TextMeshProUGUI boxAwardedText;
     [SerializeField] private GameTimer gameTimer;
     [SerializeField] private GameObject player;
-    [SerializeField] private BoxManager boxManager; // Reference to BoxManager
+    [SerializeField] private BoxManager boxManager;
 
     private int respawnCount = 0;
     private BoxManager.BoxType awardedBox;
+    private string currentLevelName;
 
     void Start()
     {
-        finishMenuUI.SetActive(false); 
+        finishMenuUI.SetActive(false);
+        currentLevelName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -34,23 +36,22 @@ public class FinishLine : MonoBehaviour
 
     void CompleteLevel()
     {
-        gameTimer.StopTimer(); 
+        gameTimer.StopTimer();
 
         finalTimeText.text = FormatTime(gameTimer.GetElapsedTime());
         respawnCountText.text = "Respawns: " + respawnCount.ToString();
 
-        AwardKey(); // Award a random box key
+        AwardKey();
         DisablePlayer();
 
-        UpdateUI(); // Update the UI to show the awarded box
+        UpdateUI();
         finishMenuUI.SetActive(true);
     }
 
     void AwardKey()
     {
-        awardedBox = boxManager.GetRandomBoxType();
-        Debug.Log($"Awarded a {awardedBox} box!");
-        // Add logic to grant the player the box here
+        awardedBox = boxManager.GetRandomBoxType(currentLevelName);
+        // Debug.Log($"Awarded a {awardedBox} box at level {currentLevelName}!");
     }
 
     void UpdateUI()
@@ -59,7 +60,6 @@ public class FinishLine : MonoBehaviour
         {
             boxAwardedText.text = "Box Awarded: " + awardedBox.ToString();
 
-            // Change text color based on box type
             switch (awardedBox)
             {
                 case BoxManager.BoxType.Rare:
