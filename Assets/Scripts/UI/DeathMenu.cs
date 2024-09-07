@@ -4,17 +4,19 @@ using TMPro;
 
 public class DeathMenu : MonoBehaviour
 {
-    [SerializeField] private GameObject deathMenuUI;
-    [SerializeField] private GameTimer gameTimer; // Reference to the GameTimer script
-    [SerializeField] private GameObject player; // Reference to the player GameObject
-    [SerializeField] private TextMeshProUGUI timerText; // Timer text in the death menu
-    [SerializeField] private ParticleSystem[] bloodParticles; // Blood particles array
+    [SerializeField] GameObject deathMenuUI;
+    [SerializeField] GameTimer gameTimer; // Reference to the GameTimer script
+    [SerializeField] GameObject player; // Reference to the player GameObject
+    [SerializeField] TextMeshProUGUI timerText; // Timer text in the death menu
+    [SerializeField] ParticleSystem[] bloodParticles; // Blood particles array
 
-    private Vector3 lastPosition; // Last position to restore
+     Vector3 lastPosition; // Last position to restore
+     FinishLine finishLine; // Reference to the FinishLine script
 
     void Start()
     {
         deathMenuUI.SetActive(false); // Initially hide the death menu
+        finishLine = FindObjectOfType<FinishLine>(); // Find the FinishLine script in the scene
     }
 
     public void TriggerDeath(Vector3 respawnPosition)
@@ -24,6 +26,7 @@ public class DeathMenu : MonoBehaviour
         gameTimer.StopTimer(); // Stop the timer
         UpdateTimerDisplay(); // Update the timer display
         deathMenuUI.SetActive(true); // Show the death menu
+        finishLine.IncrementRespawnCount(); // Increment respawn count
     }
 
     public void ContinueGame()
