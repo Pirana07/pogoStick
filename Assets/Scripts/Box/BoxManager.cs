@@ -11,21 +11,21 @@ public class BoxManager : MonoBehaviour
     }
 
     [SerializeField] private BoxType[] boxTypes;
-    [SerializeField] private float[] boxRarityWeights; 
+    [SerializeField] private float[] boxRarityWeights;
+
+    private const string AwardedBoxesKey = "AwardedBoxes";
 
     private void Start()
     {
         // Example setup (You can remove or modify this as needed)
         boxTypes = new BoxType[] { BoxType.Rare, BoxType.Legendary, BoxType.Mythic, BoxType.Youtuber };
-        boxRarityWeights = new float[] { 0.5f, 0.3f, 0.15f, 0.05f }; 
+        boxRarityWeights = new float[] { 0.5f, 0.3f, 0.15f, 0.05f };
     }
 
     public BoxType GetRandomBoxType(string levelName)
     {
-        // Log the level name for debugging
         Debug.Log($"Getting box type for level: {levelName}");
 
-        // Adjust weights based on the level
         AdjustRarityWeights(levelName);
 
         float randomValue = Random.value;
@@ -36,7 +36,10 @@ public class BoxManager : MonoBehaviour
             cumulativeWeight += boxRarityWeights[i];
             if (randomValue <= cumulativeWeight)
             {
-                return boxTypes[i];
+                BoxType awardedBox = boxTypes[i];
+                SaveAwardedBox(awardedBox);
+                Debug.Log($"Awarded a {awardedBox} box at level {levelName}!");
+                return awardedBox;
             }
         }
 
@@ -45,7 +48,6 @@ public class BoxManager : MonoBehaviour
 
     private void AdjustRarityWeights(string levelName)
     {
-        // Adjust the rarity weights based on the level name
         switch (levelName.ToLower())
         {
             case "stage1":
@@ -65,7 +67,22 @@ public class BoxManager : MonoBehaviour
                 boxRarityWeights = new float[] { 0.5f, 0.3f, 0.15f, 0.05f };
                 break;
         }
+    }
 
-        
+    private void SaveAwardedBox(BoxType boxType)
+    {
+        // Get the current list of awarded boxes from PlayerPrefs
+        string awardedBoxes = PlayerPrefs.GetString(AwardedBoxesKey, "");
+
+        // Add the new box type to the list
+        awardedBoxes += boxType.ToString() + ",";
+
+        // Save the updated list back to PlayerPrefs
+        PlayerPrefs.SetString(AwardedBoxesKey, awardedBoxes);
+    }
+
+    public string GetAwardedBoxes()
+    {
+        return PlayerPrefs.GetString(AwardedBoxesKey, "No boxes awarded yet.");
     }
 }
