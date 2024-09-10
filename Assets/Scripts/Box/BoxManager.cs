@@ -22,6 +22,20 @@ public class BoxManager : MonoBehaviour
         // Example setup (You can remove or modify this as needed)
         boxTypes = new BoxType[] { BoxType.Rare, BoxType.Legendary, BoxType.Mythic, BoxType.Youtuber };
         boxRarityWeights = new float[] { 0.5f, 0.3f, 0.15f, 0.05f };
+
+        // Initialize box counts if not already set
+        InitializeBoxCounts();
+    }
+
+    private void InitializeBoxCounts()
+    {
+        foreach (BoxType boxType in boxTypes)
+        {
+            if (!PlayerPrefs.HasKey(boxType.ToString()))
+            {
+                PlayerPrefs.SetInt(boxType.ToString(), 0);
+            }
+        }
     }
 
     public BoxType GetRandomBoxType(string levelName)
@@ -73,25 +87,21 @@ public class BoxManager : MonoBehaviour
 
     private void SaveAwardedBox(BoxType boxType)
     {
-        // Get the current list of awarded boxes from PlayerPrefs
-        string awardedBoxes = PlayerPrefs.GetString(AwardedBoxesKey, "");
+        // Get the current count of the awarded box type
+        int currentCount = PlayerPrefs.GetInt(boxType.ToString(), 0);
 
-        // Add the new box type to the list
-        awardedBoxes += boxType.ToString() + ",";
-
-        // Save the updated list back to PlayerPrefs
-        PlayerPrefs.SetString(AwardedBoxesKey, awardedBoxes);
+        // Increment the count
+        PlayerPrefs.SetInt(boxType.ToString(), currentCount + 1);
     }
 
     public Dictionary<BoxType, int> GetAwardedBoxCounts()
     {
-        string awardedBoxes = PlayerPrefs.GetString(AwardedBoxesKey, "");
-        string[] boxes = awardedBoxes.Split(new[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries);
-
         Dictionary<BoxType, int> boxCounts = new Dictionary<BoxType, int>();
+
         foreach (BoxType boxType in boxTypes)
         {
-            boxCounts[boxType] = boxes.Count(box => box.Equals(boxType.ToString()));
+            int count = PlayerPrefs.GetInt(boxType.ToString(), 0);
+            boxCounts[boxType] = count;
         }
 
         return boxCounts;
@@ -99,22 +109,26 @@ public class BoxManager : MonoBehaviour
 
     public string GetAwardedBoxes()
     {
-        return PlayerPrefs.GetString(AwardedBoxesKey, "No boxes awarded yet.");
+        var boxCounts = GetAwardedBoxCounts();
+        string awardedBoxes = "";
+
+        foreach (var box in boxCounts)
+        {
+            if (box.Value > 0)
+            {
+                awardedBoxes += $"{box.Key.ToString()} - {box.Value}, ";
+            }
+        }
+
+        return string.IsNullOrEmpty(awardedBoxes) ? "No boxes awarded yet." : awardedBoxes.TrimEnd(',', ' ');
     }
 
     public void RemoveBox(BoxType boxType)
     {
-        string awardedBoxes = PlayerPrefs.GetString(AwardedBoxesKey, "");
-        string[] boxes = awardedBoxes.Split(new[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries);
+        // Get the current count of the awarded box type
+        int currentCount = PlayerPrefs.GetInt(boxType.ToString(), 0);
 
-        List<string> boxList = new List<string>(boxes);
-        if (boxList.Contains(boxType.ToString()))
-        {
-            boxList.Remove(boxType.ToString()); // Remove only the first occurrence
-        }
-
-        awardedBoxes = string.Join(",", boxList);
-
-        PlayerPrefs.SetString(AwardedBoxesKey, awardedBoxes);
+        // Decrement the count, ensuring it does not go below zero
+        PlayerPrefs.SetInt(boxType.ToString(), Mathf.Max(0, currentCount - 1));
     }
 }
