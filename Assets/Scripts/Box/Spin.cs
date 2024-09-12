@@ -14,54 +14,53 @@ public class Spin : MonoBehaviour
     private void Start()
     {
         uiSpinButton.onClick.AddListener(OnSpinButtonClicked);
+
+        // Initialize button state
         UpdateSpinButtonState();
     }
 
     private void OnSpinButtonClicked()
     {
-        if (HasRareBox())
-        {
-            uiSpinButton.interactable = false;
-            uiSpinButtonText.text = "Spinning";
+        // Retrieve the awarded boxes string
+        string awardedBoxes = boxManager.GetAwardedBoxes();
 
-            pickerWheel.OnSpinEnd(wheelPiece =>
-            {
-                Debug.Log(
-                    @" <b>Index:</b> " + wheelPiece.Index + "           <b>Label:</b> " + wheelPiece.Label
-                    + "\n <b>Amount:</b> " + wheelPiece.Amount + "      <b>Chance:</b> " + wheelPiece.Chance + "%"
-                );
-
-                // Assume wheelPiece.Chance corresponds to BoxType
-                BoxManager.BoxType boxType = (BoxManager.BoxType)wheelPiece.Chance;
-
-                // Update box counts and perform the spin
-                boxManager.RemoveBox(BoxManager.BoxType.Rare);
-                SaveAwardedBox(boxType);
-
-                // Update the display to show the current boxes
-                boxDisplay.UpdateAwardedBoxesUI();
-
-                uiSpinButton.interactable = true;
-                uiSpinButtonText.text = "Spin";
-
-                // Update the spin button state after the spin
-                UpdateSpinButtonState();
-            });
-
-            pickerWheel.Spin();
-        }
-        else
+        // Check if "Rare - 0" is in the awarded boxes string
+        if (awardedBoxes.Contains("Rare - 0"))
         {
             Debug.Log("No rare boxes available. Cannot spin the wheel.");
             uiSpinButton.interactable = false;
             uiSpinButtonText.text = "No Rare Boxes";
+            return;
         }
-    }
 
-    private bool HasRareBox()
-    {
-        var boxCounts = boxManager.GetAwardedBoxCounts();
-        return boxCounts.ContainsKey(BoxManager.BoxType.Rare) && boxCounts[BoxManager.BoxType.Rare] > 0;
+        uiSpinButton.interactable = false;
+        uiSpinButtonText.text = "Spinning";
+
+        pickerWheel.OnSpinEnd(wheelPiece =>
+        {
+            Debug.Log(
+                @" <b>Index:</b> " + wheelPiece.Index + "           <b>Label:</b> " + wheelPiece.Label
+                + "\n <b>Amount:</b> " + wheelPiece.Amount + "      <b>Chance:</b> " + wheelPiece.Chance + "%"
+            );
+
+            // Example logic to determine BoxType from wheelPiece.Index
+            BoxManager.BoxType boxType = (BoxManager.BoxType)wheelPiece.Index;
+
+            // Update box counts and perform the spin
+            boxManager.RemoveBox(BoxManager.BoxType.Rare);
+            SaveAwardedBox(boxType);
+
+            // Update the display to show the current boxes
+            boxDisplay.UpdateAwardedBoxesUI();
+
+            uiSpinButton.interactable = true;
+            uiSpinButtonText.text = "Spin";
+
+            // Update button state
+            UpdateSpinButtonState();
+        });
+
+        pickerWheel.Spin();
     }
 
     private void SaveAwardedBox(BoxManager.BoxType boxType)
@@ -72,7 +71,11 @@ public class Spin : MonoBehaviour
 
     private void UpdateSpinButtonState()
     {
-        if (!HasRareBox())
+        // Retrieve the awarded boxes string
+        string awardedBoxes = boxManager.GetAwardedBoxes();
+
+        // Check if "Rare - 0" is in the awarded boxes string
+        if (awardedBoxes.Contains("Rare - 0"))
         {
             uiSpinButton.interactable = false;
             uiSpinButtonText.text = "No Rare Boxes";

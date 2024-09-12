@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
 
 public class BoxManager : MonoBehaviour
 {
@@ -92,6 +91,9 @@ public class BoxManager : MonoBehaviour
 
         // Increment the count
         PlayerPrefs.SetInt(boxType.ToString(), currentCount + 1);
+
+        // Debug log to confirm the increment
+        Debug.Log($"Saved awarded box: {boxType}. New count: {PlayerPrefs.GetInt(boxType.ToString(), 0)}");
     }
 
     public Dictionary<BoxType, int> GetAwardedBoxCounts()
@@ -112,15 +114,13 @@ public class BoxManager : MonoBehaviour
         var boxCounts = GetAwardedBoxCounts();
         string awardedBoxes = "";
 
-        foreach (var box in boxCounts)
+        foreach (BoxType boxType in boxTypes)
         {
-            if (box.Value > 0)
-            {
-                awardedBoxes += $"{box.Key.ToString()} - {box.Value}, ";
-            }
+            int count = boxCounts.ContainsKey(boxType) ? boxCounts[boxType] : 0;
+            awardedBoxes += $"{boxType.ToString()} - {count}, ";
         }
 
-        return string.IsNullOrEmpty(awardedBoxes) ? "No boxes awarded yet." : awardedBoxes.TrimEnd(',', ' ');
+        return awardedBoxes.TrimEnd(',', ' ');
     }
 
     public void RemoveBox(BoxType boxType)
@@ -128,7 +128,13 @@ public class BoxManager : MonoBehaviour
         // Get the current count of the awarded box type
         int currentCount = PlayerPrefs.GetInt(boxType.ToString(), 0);
 
+        // Debug log to check the current count
+        Debug.Log($"Attempting to remove one {boxType}. Current count: {currentCount}");
+
         // Decrement the count, ensuring it does not go below zero
         PlayerPrefs.SetInt(boxType.ToString(), Mathf.Max(0, currentCount - 1));
+
+        // Debug log to confirm the updated count
+        Debug.Log($"Updated count for {boxType}: {PlayerPrefs.GetInt(boxType.ToString(), 0)}");
     }
 }

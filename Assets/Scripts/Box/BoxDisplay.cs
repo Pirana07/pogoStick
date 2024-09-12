@@ -16,7 +16,10 @@ public class BoxDisplay : MonoBehaviour
     {
         if (boxManager != null)
         {
+            // Get the awarded boxes string
             string awardedBoxes = boxManager.GetAwardedBoxes();
+            
+            // Update the UI text with the awarded boxes information
             awardedBoxesText.text = FormatAwardedBoxes(awardedBoxes);
             Debug.Log($"Updated Awarded Boxes UI: {awardedBoxesText.text}");
         }
@@ -28,15 +31,17 @@ public class BoxDisplay : MonoBehaviour
 
     private string FormatAwardedBoxes(string awardedBoxes)
     {
+        // Directly return the awarded boxes string with formatting
         string formattedBoxes = awardedBoxes
             .Replace("Legendary", "<color=yellow>Leg.</color>")
             .Replace("Mythic", "<color=purple>Myth.</color>")
             .Replace("Youtuber", "<color=red>Yter</color>")
             .Replace("Rare", "<color=green>Rare</color>");
         
+        // Ensure the text shows all box types, even if their count is zero
         if (string.IsNullOrWhiteSpace(formattedBoxes))
         {
-            formattedBoxes = "No boxes awarded.";
+            formattedBoxes = "Rare - 0, Legendary - 0, Mythic - 0, Youtuber - 0";
         }
         else
         {
