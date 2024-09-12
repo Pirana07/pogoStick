@@ -14,76 +14,75 @@ public class Spin : MonoBehaviour
     private void Start()
     {
         uiSpinButton.onClick.AddListener(OnSpinButtonClicked);
-
-        // Initialize button state
-        UpdateSpinButtonState();
+        UpdateSpinButtonState(); // Initialize button state on start
     }
 
     private void OnSpinButtonClicked()
     {
-        // Retrieve the awarded boxes string
-        string awardedBoxes = boxManager.GetAwardedBoxes();
-
-        // Check if "Rare - 0" is in the awarded boxes string
-        if (awardedBoxes.Contains("Rare - 0"))
+        // Check if there are any Rare boxes left to allow spinning
+        if (!CanSpin())
         {
             Debug.Log("No rare boxes available. Cannot spin the wheel.");
-            uiSpinButton.interactable = false;
-            uiSpinButtonText.text = "No Rare Boxes";
+            UpdateSpinButton("No Rare Boxes", false);
             return;
         }
 
-        uiSpinButton.interactable = false;
-        uiSpinButtonText.text = "Spinning";
+        // Disable the spin button while spinning
+        UpdateSpinButton("Spinning", false);
 
+        // Start spinning the wheel
         pickerWheel.OnSpinEnd(wheelPiece =>
         {
             Debug.Log(
-                @" <b>Index:</b> " + wheelPiece.Index + "           <b>Label:</b> " + wheelPiece.Label
-                + "\n <b>Amount:</b> " + wheelPiece.Amount + "      <b>Chance:</b> " + wheelPiece.Chance + "%"
+                $"<b>Index:</b> {wheelPiece.Index}   <b>Label:</b> {wheelPiece.Label}\n" +
+                $"<b>Amount:</b> {wheelPiece.Amount}  <b>Chance:</b> {wheelPiece.Chance}%"
             );
 
-            // Example logic to determine BoxType from wheelPiece.Index
-            BoxManager.BoxType boxType = (BoxManager.BoxType)wheelPiece.Index;
+            // Determine the BoxType from the wheel's result
+            BoxManager.BoxType awardedBox = (BoxManager.BoxType)wheelPiece.Index;
 
-            // Update box counts and perform the spin
+            // Remove one Rare box and save the awarded one
             boxManager.RemoveBox(BoxManager.BoxType.Rare);
-            SaveAwardedBox(boxType);
+            SaveAwardedBox(awardedBox);
 
-            // Update the display to show the current boxes
+            // Update the awarded boxes UI and spin button state
             boxDisplay.UpdateAwardedBoxesUI();
-
-            uiSpinButton.interactable = true;
-            uiSpinButtonText.text = "Spin";
-
-            // Update button state
             UpdateSpinButtonState();
         });
 
         pickerWheel.Spin();
     }
 
+    private bool CanSpin()
+    {
+        // Check if there are any Rare boxes available to spin
+        string awardedBoxes = boxManager.GetAwardedBoxes();
+        return !awardedBoxes.Contains("Rare - 0");
+    }
+
     private void SaveAwardedBox(BoxManager.BoxType boxType)
     {
-        // Add logic for saving awarded box if needed
-        // For example, you might want to keep track of which box was awarded in the game
+        // Save the awarded box in BoxManager to track unlocked skins
+        boxManager.SaveAwardedBox(boxType);
     }
 
     private void UpdateSpinButtonState()
     {
-        // Retrieve the awarded boxes string
-        string awardedBoxes = boxManager.GetAwardedBoxes();
-
-        // Check if "Rare - 0" is in the awarded boxes string
-        if (awardedBoxes.Contains("Rare - 0"))
+        // Update the button based on whether the player has Rare boxes
+        if (CanSpin())
         {
-            uiSpinButton.interactable = false;
-            uiSpinButtonText.text = "No Rare Boxes";
+            UpdateSpinButton("Spin", true);
         }
         else
         {
-            uiSpinButton.interactable = true;
-            uiSpinButtonText.text = "Spin";
+            UpdateSpinButton("No Rare Boxes", false);
         }
+    }
+
+    private void UpdateSpinButton(string text, bool interactable)
+    {
+        // Set button text and interactivity
+        uiSpinButtonText.text = text;
+        uiSpinButton.interactable = interactable;
     }
 }

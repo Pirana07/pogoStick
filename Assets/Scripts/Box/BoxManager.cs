@@ -18,11 +18,10 @@ public class BoxManager : MonoBehaviour
 
     private void Start()
     {
-        // Example setup (You can remove or modify this as needed)
+        
         boxTypes = new BoxType[] { BoxType.Rare, BoxType.Legendary, BoxType.Mythic, BoxType.Youtuber };
         boxRarityWeights = new float[] { 0.5f, 0.3f, 0.15f, 0.05f };
 
-        // Initialize box counts if not already set
         InitializeBoxCounts();
     }
 
@@ -84,7 +83,7 @@ public class BoxManager : MonoBehaviour
         }
     }
 
-    private void SaveAwardedBox(BoxType boxType)
+    public void SaveAwardedBox(BoxType boxType)
     {
         // Get the current count of the awarded box type
         int currentCount = PlayerPrefs.GetInt(boxType.ToString(), 0);
