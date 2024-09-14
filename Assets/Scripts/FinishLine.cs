@@ -50,30 +50,49 @@ public class FinishLine : MonoBehaviour
 
     void AwardKey()
     {
-        awardedBox = boxManager.GetRandomBoxType(currentLevelName);
-        // Debug.Log($"Awarded a {awardedBox} box at level {currentLevelName}!");
+        if (respawnCount >= 5)
+        {
+            // No box awarded due to high respawn count
+            awardedBox = BoxManager.BoxType.Rare; // Placeholder
+            boxAwardedText.text = "You don't get a box because you had 5 respawns.";
+            boxAwardedText.color = Color.red; // Indicate warning/error
+        }
+        else
+        {
+            awardedBox = boxManager.GetRandomBoxType(currentLevelName);
+            // Debug.Log($"Awarded a {awardedBox} box at level {currentLevelName}!");
+            boxManager.SaveAwardedBox(awardedBox);
+        }
     }
 
     void UpdateUI()
     {
         if (boxAwardedText != null)
         {
-            boxAwardedText.text = "Box Awarded: " + awardedBox.ToString();
-
-            switch (awardedBox)
+            if (respawnCount >= 5)
             {
-                case BoxManager.BoxType.Rare:
-                    boxAwardedText.color = Color.green;
-                    break;
-                case BoxManager.BoxType.Legendary:
-                    boxAwardedText.color = Color.yellow;
-                    break;
-                case BoxManager.BoxType.Mythic:
-                    boxAwardedText.color = new Color(0.5f, 0f, 0.5f); // Purple
-                    break;
-                case BoxManager.BoxType.Youtuber:
-                    boxAwardedText.color = Color.red;
-                    break;
+                boxAwardedText.text = "You don't get a box because you had 5 respawns.";
+                boxAwardedText.color = Color.red; // Indicate warning/error
+            }
+            else
+            {
+                boxAwardedText.text = "Box Awarded: " + awardedBox.ToString();
+
+                switch (awardedBox)
+                {
+                    case BoxManager.BoxType.Rare:
+                        boxAwardedText.color = Color.green;
+                        break;
+                    case BoxManager.BoxType.Legendary:
+                        boxAwardedText.color = Color.yellow;
+                        break;
+                    case BoxManager.BoxType.Mythic:
+                        boxAwardedText.color = new Color(0.5f, 0f, 0.5f); // Purple
+                        break;
+                    case BoxManager.BoxType.Youtuber:
+                        boxAwardedText.color = Color.red;
+                        break;
+                }
             }
         }
     }
