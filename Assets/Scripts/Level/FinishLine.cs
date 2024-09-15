@@ -26,6 +26,8 @@ public class FinishLine : MonoBehaviour
         if (other.gameObject == player)
         {
             CompleteLevel();
+            LevelManager.instance.CompleteLevel();
+
         }
     }
 
