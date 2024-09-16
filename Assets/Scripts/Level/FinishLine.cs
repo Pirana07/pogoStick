@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class FinishLine : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class FinishLine : MonoBehaviour
     void Start()
     {
         finishMenuUI.SetActive(false);
-        currentLevelName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        currentLevelName = SceneManager.GetActiveScene().name;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -26,8 +27,17 @@ public class FinishLine : MonoBehaviour
         if (other.gameObject == player)
         {
             CompleteLevel();
-            LevelManager.instance.CompleteLevel();
 
+            // Ensure LevelManager exists before calling it
+            if (LevelManager.instance != null)
+            {
+                int currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
+                LevelManager.instance.CompleteLevel(currentLevelIndex);
+            }
+            else
+            {
+                Debug.LogWarning("LevelManager instance not found!");
+            }
         }
     }
 
@@ -38,16 +48,19 @@ public class FinishLine : MonoBehaviour
 
     void CompleteLevel()
     {
-        gameTimer.StopTimer();
+         gameTimer.StopTimer();
 
-        finalTimeText.text = FormatTime(gameTimer.GetElapsedTime());
-        respawnCountText.text = "Respawns: " + respawnCount.ToString();
+    finalTimeText.text = FormatTime(gameTimer.GetElapsedTime());
+    respawnCountText.text = "Respawns: " + respawnCount.ToString();
 
-        AwardKey();
-        DisablePlayer();
+    int currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
+    LevelManager.instance.CompleteLevel(currentLevelIndex);
 
-        UpdateUI();
-        finishMenuUI.SetActive(true);
+    AwardKey();
+    DisablePlayer();
+
+    UpdateUI();
+    finishMenuUI.SetActive(true);
     }
 
     void AwardKey()
@@ -62,7 +75,6 @@ public class FinishLine : MonoBehaviour
         else
         {
             awardedBox = boxManager.GetRandomBoxType(currentLevelName);
-            // Debug.Log($"Awarded a {awardedBox} box at level {currentLevelName}!");
             boxManager.SaveAwardedBox(awardedBox);
         }
     }

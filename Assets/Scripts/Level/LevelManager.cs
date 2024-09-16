@@ -4,14 +4,13 @@ using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
-    public int currentLevelIndex = 0;
 
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject); // Persist through scenes
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -19,40 +18,32 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public void CompleteLevel()
+    public void CompleteLevel(int currentLevelIndex)
     {
-        currentLevelIndex++;
-        SaveProgress();
-        LoadNextLevel();
-    }
+        // Get the index of the next level to unlock
+        int nextLevelIndex = currentLevelIndex + 1;
 
-    public void LoadNextLevel()
-    {
-        if (currentLevelIndex < SceneManager.sceneCountInBuildSettings)
+        // Check if the next level is already unlocked
+        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
+
+        // Only unlock the next level if it's the next one in sequence
+        if (nextLevelIndex > unlockedLevel)
         {
-            SceneManager.LoadScene(currentLevelIndex);
-        }
-        else
-        {
-            Debug.Log("All levels completed!");
+            PlayerPrefs.SetInt("UnlockedLevel", nextLevelIndex);
+            PlayerPrefs.Save();
         }
     }
 
-    private void SaveProgress()
+    public bool IsLevelUnlocked(int levelIndex)
     {
-        PlayerPrefs.SetInt("LevelIndex", currentLevelIndex);
+        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
+        return levelIndex <= unlockedLevel;
+    }
+
+    public void ResetLevels()
+    {
+        // Reset the unlocked level to level 1
+        PlayerPrefs.SetInt("UnlockedLevel", 1);
         PlayerPrefs.Save();
-    }
-
-    private void LoadProgress()
-    {
-        currentLevelIndex = PlayerPrefs.GetInt("LevelIndex", 0);
-    }
-
-    public void ResetProgress()
-    {
-        PlayerPrefs.DeleteKey("LevelIndex");
-        currentLevelIndex = 0;
-        LoadNextLevel();
     }
 }
