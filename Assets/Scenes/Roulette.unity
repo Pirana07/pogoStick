@@ -6361,6 +6361,7 @@ GameObject:
   - component: {fileID: 850426053}
   - component: {fileID: 850426054}
   - component: {fileID: 850426055}
+  - component: {fileID: 850426056}
   m_Layer: 0
   m_Name: GameMaster
   m_TagString: Untagged
@@ -6458,6 +6459,7 @@ MonoBehaviour:
   pickerWheel: {fileID: 2119398030}
   boxManager: {fileID: 850426054}
   boxDisplay: {fileID: 850426055}
+  skinManager: {fileID: 0}
 --- !u!114 &850426054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6485,6 +6487,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   awardedBoxesText: {fileID: 1679443479}
+--- !u!114 &850426056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 850426047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b93b43c13297d34a99a97dcbd569535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &882632158
 GameObject:
   m_ObjectHideFlags: 0

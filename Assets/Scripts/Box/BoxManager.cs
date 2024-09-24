@@ -65,16 +65,16 @@ public class BoxManager : MonoBehaviour
         switch (levelName.ToLower())
         {
             case "stage1":
-                boxRarityWeights = new float[] { 0.6f, 0.25f, 0.1f, 0.05f };
+                boxRarityWeights = new float[] { 0.7f, 0.15f, 0f, 0f };
                 break;
             case "stage2":
-                boxRarityWeights = new float[] { 0.5f, 0.3f, 0.15f, 0.05f };
+                boxRarityWeights = new float[] { 0.7f, 0.4f, 0.05f, 0.0f };
                 break;
             case "stage3":
                 boxRarityWeights = new float[] { 0.4f, 0.35f, 0.2f, 0.05f };
                 break;
             case "stage4":
-                boxRarityWeights = new float[] { 0.3f, 0.4f, 0.25f, 0.05f };
+                boxRarityWeights = new float[] { 0.2f, 0.35f, 0.25f, 0.1f };
                 break;
             default:
                 Debug.LogWarning($"Unknown level name: {levelName}. Using default rarity weights.");

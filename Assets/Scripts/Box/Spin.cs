@@ -10,6 +10,7 @@ public class Spin : MonoBehaviour
     [SerializeField] private PickerWheel pickerWheel;
     [SerializeField] private BoxManager boxManager;
     [SerializeField] private BoxDisplay boxDisplay; // Reference to BoxDisplay
+    [SerializeField] private SkinManager skinManager; // Reference to SkinManager
 
     private void Start()
     {
@@ -43,7 +44,9 @@ public class Spin : MonoBehaviour
 
             // Remove one Rare box and save the awarded one
             boxManager.RemoveBox(BoxManager.BoxType.Rare);
-            SaveAwardedBox(awardedBox);
+
+            // Award a random skin based on the box type
+            AwardRandomSkin(awardedBox);
 
             // Update the awarded boxes UI and spin button state
             boxDisplay.UpdateAwardedBoxesUI();
@@ -58,6 +61,20 @@ public class Spin : MonoBehaviour
         // Check if there are any Rare boxes available to spin
         string awardedBoxes = boxManager.GetAwardedBoxes();
         return !awardedBoxes.Contains("Rare - 0");
+    }
+
+    private void AwardRandomSkin(BoxManager.BoxType awardedBox)
+    {
+        // Check the SkinManager mapping for skins related to this box type
+        foreach (var skin in skinManager.GetUnlockedSkins())
+        {
+            if (skinManager.skinBoxTypeMapping[skin] == awardedBox)
+            {
+                skinManager.UnlockSkin(skin);
+                Debug.Log($"Unlocked new skin: {skin}");
+                return;
+            }
+        }
     }
 
     private void SaveAwardedBox(BoxManager.BoxType boxType)

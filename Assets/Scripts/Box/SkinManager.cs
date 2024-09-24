@@ -12,7 +12,7 @@ public class SkinManager : MonoBehaviour
         YoutuberSkin
     }
 
-    [SerializeField] private Dictionary<SkinType, BoxManager.BoxType> skinBoxTypeMapping;
+    public  Dictionary<SkinType, BoxManager.BoxType> skinBoxTypeMapping;
     private List<SkinType> unlockedSkins = new List<SkinType>();
 
     private const string UnlockedSkinsKey = "UnlockedSkins";
