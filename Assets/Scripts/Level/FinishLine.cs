@@ -27,17 +27,7 @@ public class FinishLine : MonoBehaviour
         if (other.gameObject == player)
         {
             CompleteLevel();
-
-            // Ensure LevelManager exists before calling it
-            if (LevelManager.instance != null)
-            {
-                int currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
-                LevelManager.instance.CompleteLevel(currentLevelIndex);
-            }
-            else
-            {
-                Debug.LogWarning("LevelManager instance not found!");
-            }
+            LevelManager.instance?.CompleteLevel(SceneManager.GetActiveScene().buildIndex);
         }
     }
 
@@ -48,26 +38,44 @@ public class FinishLine : MonoBehaviour
 
     void CompleteLevel()
     {
-         gameTimer.StopTimer();
+        gameTimer.StopTimer();
+        float elapsedTime = gameTimer.GetElapsedTime();
+        finalTimeText.text = FormatTime(elapsedTime);
+        respawnCountText.text = "Respawns: " + respawnCount.ToString();
+        SaveRecordTime(elapsedTime);
+        AwardKey();
+        DisablePlayer();
+        UpdateUI();
+        finishMenuUI.SetActive(true);
+    }
 
-    finalTimeText.text = FormatTime(gameTimer.GetElapsedTime());
-    respawnCountText.text = "Respawns: " + respawnCount.ToString();
+    float currentRecordTimePB;
 
-    int currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
-    LevelManager.instance.CompleteLevel(currentLevelIndex);
+    void SaveRecordTime(float elapsedTime)
+    {
+        string recordKey = currentLevelName + "_RecordTime";
+        float currentRecordTime = PlayerPrefs.GetFloat(recordKey, float.MaxValue);
 
-    AwardKey();
-    DisablePlayer();
+        if (elapsedTime < currentRecordTime)
+        {
+            PlayerPrefs.SetFloat(recordKey, elapsedTime);
+            PlayerPrefs.Save();
+            Debug.Log("New record saved: " + FormatTime(elapsedTime));
+        }
+    }
 
-    UpdateUI();
-    finishMenuUI.SetActive(true);
+    public void RestartRecord()
+    {
+        string recordKey = currentLevelName + "_RecordTime";
+        PlayerPrefs.DeleteKey(recordKey);
+        PlayerPrefs.Save();
+        Debug.Log("Record time reset for: " + currentLevelName);
     }
 
     void AwardKey()
     {
         if (respawnCount >= 5)
         {
-            // No box awarded due to high respawn count
             awardedBox = BoxManager.BoxType.Rare; // Placeholder
             boxAwardedText.text = "You don't get a box because you had 5 respawns.";
             boxAwardedText.color = Color.red; // Indicate warning/error
@@ -81,34 +89,23 @@ public class FinishLine : MonoBehaviour
 
     void UpdateUI()
     {
-        if (boxAwardedText != null)
-        {
-            if (respawnCount >= 5)
-            {
-                boxAwardedText.text = "You don't get a box because you had 5 respawns.";
-                boxAwardedText.color = Color.red; // Indicate warning/error
-            }
-            else
-            {
-                boxAwardedText.text = "Box Awarded: " + awardedBox.ToString();
+        boxAwardedText.text = respawnCount >= 5 ? 
+            "You don't get a box because you had 5 respawns." : 
+            "Box Awarded: " + awardedBox.ToString();
 
-                switch (awardedBox)
-                {
-                    case BoxManager.BoxType.Rare:
-                        boxAwardedText.color = Color.green;
-                        break;
-                    case BoxManager.BoxType.Legendary:
-                        boxAwardedText.color = Color.yellow;
-                        break;
-                    case BoxManager.BoxType.Mythic:
-                        boxAwardedText.color = new Color(0.5f, 0f, 0.5f); // Purple
-                        break;
-                    case BoxManager.BoxType.Youtuber:
-                        boxAwardedText.color = Color.red;
-                        break;
-                }
-            }
-        }
+        boxAwardedText.color = respawnCount >= 5 ? Color.red : GetBoxColor(awardedBox);
+    }
+
+    Color GetBoxColor(BoxManager.BoxType boxType)
+    {
+        return boxType switch
+        {
+            BoxManager.BoxType.Rare => Color.green,
+            BoxManager.BoxType.Legendary => Color.yellow,
+            BoxManager.BoxType.Mythic => new Color(0.5f, 0f, 0.5f), // Purple
+            BoxManager.BoxType.Youtuber => Color.red,
+            _ => Color.white,
+        };
     }
 
     void DisablePlayer()
@@ -121,7 +118,6 @@ public class FinishLine : MonoBehaviour
         int minutes = (int)(elapsedTime / 60);
         int seconds = (int)(elapsedTime % 60);
         int milliseconds = (int)((elapsedTime * 1000) % 1000);
-
         return string.Format("Score: {0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds);
     }
 }

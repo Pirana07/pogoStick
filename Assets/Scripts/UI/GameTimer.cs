@@ -12,8 +12,7 @@ public class GameTimer : MonoBehaviour
 
     void Start()
     {
-        startTime = Time.time;
-        elapsedTime = 0f;
+        ResetTimer();
         pauseMenuTimerText.gameObject.SetActive(false); // Initially hide the pause menu timer
     }
 
@@ -49,8 +48,9 @@ public class GameTimer : MonoBehaviour
 
     public void ResetTimer()
     {
-        startTime = Time.time - elapsedTime; // Set the start time to the point of the last elapsed time
-        isRunning = true;
+        startTime = Time.time; // Reset start time to now
+        elapsedTime = 0f; // Reset elapsed time
+        isRunning = true; // Ensure timer is running
     }
 
     public void TransferTimerToPauseMenu()
@@ -67,6 +67,7 @@ public class GameTimer : MonoBehaviour
 
     public float GetElapsedTime()
     {
-        return elapsedTime;
+        // If the timer is running, return the current elapsed time
+        return isRunning ? Time.time - startTime : elapsedTime;
     }
 }
