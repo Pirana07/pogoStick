@@ -10,10 +10,10 @@ public class FinishLine : MonoBehaviour
     [SerializeField] private TextMeshProUGUI boxAwardedText;
     [SerializeField] private GameTimer gameTimer;
     [SerializeField] private GameObject player;
-    [SerializeField] private BoxManager boxManager;
+    // [SerializeField] private BoxManager boxManager;
 
     private int respawnCount = 0;
-    private BoxManager.BoxType awardedBox;
+    // private BoxManager.BoxType awardedBox;
     private string currentLevelName;
 
     void Start()
@@ -43,9 +43,9 @@ public class FinishLine : MonoBehaviour
         finalTimeText.text = FormatTime(elapsedTime);
         respawnCountText.text = "Respawns: " + respawnCount.ToString();
         SaveRecordTime(elapsedTime);
-        AwardKey();
+        // AwardKey();
         DisablePlayer();
-        UpdateUI();
+        // UpdateUI();
         finishMenuUI.SetActive(true);
     }
 
@@ -72,41 +72,41 @@ public class FinishLine : MonoBehaviour
         Debug.Log("Record time reset for: " + currentLevelName);
     }
 
-    void AwardKey()
-    {
-        if (respawnCount >= 5)
-        {
-            awardedBox = BoxManager.BoxType.Rare; // Placeholder
-            boxAwardedText.text = "You don't get a box because you had 5 respawns.";
-            boxAwardedText.color = Color.red; // Indicate warning/error
-        }
-        else
-        {
-            awardedBox = boxManager.GetRandomBoxType(currentLevelName);
-            boxManager.SaveAwardedBox(awardedBox);
-        }
-    }
+    // void AwardKey()
+    // {
+    //     if (respawnCount >= 5)
+    //     {
+    //         awardedBox = BoxManager.BoxType.Rare; // Placeholder
+    //         boxAwardedText.text = "You don't get a box because you had 5 respawns.";
+    //         boxAwardedText.color = Color.red; // Indicate warning/error
+    //     }
+    //     else
+    //     {
+    //         awardedBox = boxManager.GetRandomBoxType(currentLevelName);
+    //         boxManager.SaveAwardedBox(awardedBox);
+    //     }
+    // }
 
-    void UpdateUI()
-    {
-        boxAwardedText.text = respawnCount >= 5 ? 
-            "You don't get a box because you had 5 respawns." : 
-            "Box Awarded: " + awardedBox.ToString();
+    // void UpdateUI()
+    // {
+    //     boxAwardedText.text = respawnCount >= 5 ? 
+    //         "You don't get a box because you had 5 respawns." : 
+    //         "Box Awarded: " + awardedBox.ToString();
 
-        boxAwardedText.color = respawnCount >= 5 ? Color.red : GetBoxColor(awardedBox);
-    }
+    //     boxAwardedText.color = respawnCount >= 5 ? Color.red : GetBoxColor(awardedBox);
+    // }
 
-    Color GetBoxColor(BoxManager.BoxType boxType)
-    {
-        return boxType switch
-        {
-            BoxManager.BoxType.Rare => Color.green,
-            BoxManager.BoxType.Legendary => Color.yellow,
-            BoxManager.BoxType.Mythic => new Color(0.5f, 0f, 0.5f), // Purple
-            BoxManager.BoxType.Youtuber => Color.red,
-            _ => Color.white,
-        };
-    }
+    // Color GetBoxColor(BoxManager.BoxType boxType)
+    // {
+    //     return boxType switch
+    //     {
+    //         BoxManager.BoxType.Rare => Color.green,
+    //         BoxManager.BoxType.Legendary => Color.yellow,
+    //         BoxManager.BoxType.Mythic => new Color(0.5f, 0f, 0.5f), // Purple
+    //         BoxManager.BoxType.Youtuber => Color.red,
+    //         _ => Color.white,
+    //     };
+    // }
 
     void DisablePlayer()
     {
