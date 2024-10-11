@@ -11,6 +11,9 @@ public class FinishLine : MonoBehaviour
     [SerializeField] private GameTimer gameTimer;
     [SerializeField] private GameObject player;
     // [SerializeField] private BoxManager boxManager;
+     [SerializeField] private BoxManager boxManager;
+    [SerializeField] private BoxDisplay boxDisplay;
+
 
     private int respawnCount = 0;
     // private BoxManager.BoxType awardedBox;
@@ -47,6 +50,9 @@ public class FinishLine : MonoBehaviour
         DisablePlayer();
         // UpdateUI();
         finishMenuUI.SetActive(true);
+        boxManager.CollectKey();
+                boxDisplay.UpdateAwardedKeysUI();
+
     }
 
     float currentRecordTimePB;

@@ -1,8 +1,45 @@
-// using UnityEngine;
-// using System.Collections.Generic;
+using UnityEngine;
+using System.Collections.Generic;
 
-// public class BoxManager : MonoBehaviour
-// {
+public class BoxManager : MonoBehaviour
+{
+  public int keysCollected;
+
+    void Start()
+    {
+        // Load saved keys at the start of the game or when the scene loads
+        keysCollected = PlayerPrefs.GetInt("KeysCollected", 0);
+    }
+
+    // Call this method when you collect a key
+    public void CollectKey()
+    {
+        
+        keysCollected++;
+        // Save the updated key count
+        PlayerPrefs.SetInt("KeysCollected", keysCollected);
+        PlayerPrefs.Save();  // Ensure data is saved to disk
+        Debug.Log("KeysCollected");
+        Debug.Log(keysCollected);
+
+    }
+
+    // Get the current number of keys collected
+    public int GetKeyCount()
+    {
+        return keysCollected;
+    }
+
+    // Call this to reset keys if needed (e.g., for debugging or new game start)
+    public void ResetKeys()
+    {
+        keysCollected = 0;
+        PlayerPrefs.SetInt("KeysCollected", keysCollected);
+        PlayerPrefs.Save();
+    }
+
+
+}
 //     public enum BoxType
 //     {
 //         Rare,

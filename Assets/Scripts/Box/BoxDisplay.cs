@@ -1,8 +1,25 @@
-// using UnityEngine;
-// using TMPro;
+using UnityEngine;
+using TMPro;
 
-// public class BoxDisplay : MonoBehaviour
-// {
+public class BoxDisplay : MonoBehaviour
+{
+    [SerializeField] private TextMeshProUGUI awardedKeyText;
+    [SerializeField] private BoxManager boxManager;
+
+    public void UpdateAwardedKeysUI()
+    {
+        if (boxManager != null && awardedKeyText != null)
+        {
+            int awardedKeys = boxManager.keysCollected;
+
+            awardedKeyText.text = $"You have: {awardedKeys} Key{(awardedKeys != 1 ? "s" : "")}";
+
+            Debug.Log($"Updated Awarded Boxes UI: {awardedKeyText.text}");
+        }
+      
+    }
+}
+
 //     [SerializeField] private TextMeshProUGUI awardedBoxesText;
 //     private BoxManager boxManager;
 
