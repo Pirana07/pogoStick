@@ -7,7 +7,7 @@ public class FinishLine : MonoBehaviour
     [SerializeField] private GameObject finishMenuUI;
     [SerializeField] private TextMeshProUGUI finalTimeText;
     [SerializeField] private TextMeshProUGUI respawnCountText;
-    [SerializeField] private TextMeshProUGUI boxAwardedText;
+    public TextMeshProUGUI boxAwardedText;
     [SerializeField] private GameTimer gameTimer;
     [SerializeField] private GameObject player;
     // [SerializeField] private BoxManager boxManager;
@@ -15,7 +15,7 @@ public class FinishLine : MonoBehaviour
     [SerializeField] private BoxDisplay boxDisplay;
 
 
-    private int respawnCount = 0;
+    public int respawnCount = 0;
     // private BoxManager.BoxType awardedBox;
     private string currentLevelName;
 
@@ -50,8 +50,8 @@ public class FinishLine : MonoBehaviour
         DisablePlayer();
         // UpdateUI();
         finishMenuUI.SetActive(true);
-        boxManager.CollectKey();
-                boxDisplay.UpdateAwardedKeysUI();
+         boxDisplay.UpdateAwardedKeysUI();
+            boxManager.CollectKey();
 
     }
 
@@ -82,14 +82,12 @@ public class FinishLine : MonoBehaviour
     // {
     //     if (respawnCount >= 5)
     //     {
-    //         awardedBox = BoxManager.BoxType.Rare; // Placeholder
-    //         boxAwardedText.text = "You don't get a box because you had 5 respawns.";
+    //         boxAwardedText.text = "You don't get a Key because you had more than 5 respawns.";
     //         boxAwardedText.color = Color.red; // Indicate warning/error
     //     }
     //     else
     //     {
-    //         awardedBox = boxManager.GetRandomBoxType(currentLevelName);
-    //         boxManager.SaveAwardedBox(awardedBox);
+    //         boxManager.CollectKey();
     //     }
     // }
 

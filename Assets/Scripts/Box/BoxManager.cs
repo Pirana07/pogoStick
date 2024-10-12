@@ -4,23 +4,27 @@ using System.Collections.Generic;
 public class BoxManager : MonoBehaviour
 {
   public int keysCollected;
+     [SerializeField] private FinishLine finishLine;
 
     void Start()
     {
-        // Load saved keys at the start of the game or when the scene loads
         keysCollected = PlayerPrefs.GetInt("KeysCollected", 0);
     }
 
-    // Call this method when you collect a key
     public void CollectKey()
     {
-        
+        if (finishLine.respawnCount >= 5)
+        {
+            finishLine.boxAwardedText.text = "You don't get a Key because you had more than 5 respawns.";
+            finishLine.boxAwardedText.color = Color.red; }
+        else
+        {        
         keysCollected++;
-        // Save the updated key count
         PlayerPrefs.SetInt("KeysCollected", keysCollected);
-        PlayerPrefs.Save();  // Ensure data is saved to disk
+        PlayerPrefs.Save();  
         Debug.Log("KeysCollected");
         Debug.Log(keysCollected);
+        }
 
     }
 
