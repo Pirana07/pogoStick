@@ -50475,7 +50475,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You got the Key
+  m_text: "\t   You got the Key"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 59c6c942e107c2a44a1ccf71a09184f0, type: 2}
   m_sharedMaterial: {fileID: 2057369216975001860, guid: 59c6c942e107c2a44a1ccf71a09184f0, type: 2}

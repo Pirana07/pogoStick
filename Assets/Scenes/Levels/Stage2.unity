@@ -19652,7 +19652,7 @@ GameObject:
   - component: {fileID: 1480317194}
   - component: {fileID: 1480317193}
   m_Layer: 5
-  m_Name: Box
+  m_Name: Key
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19667,14 +19667,14 @@ RectTransform:
   m_GameObject: {fileID: 1480317191}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.897789, y: 1.897789, z: 1.897789}
+  m_LocalScale: {x: 1.5119685, y: 1.5119685, z: 1.5119685}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2107035132}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -110, y: -376}
+  m_AnchoredPosition: {x: -48, y: -376}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1480317193
@@ -19697,7 +19697,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You got rare box
+  m_text: "\t   You got the Key"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 59c6c942e107c2a44a1ccf71a09184f0, type: 2}
   m_sharedMaterial: {fileID: 2057369216975001860, guid: 59c6c942e107c2a44a1ccf71a09184f0, type: 2}
@@ -19706,8 +19706,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278255476
-  m_fontColor: {r: 0.4533286, g: 1, b: 0, a: 1}
+    rgba: 4278255609
+  m_fontColor: {r: 0.97504056, g: 1, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -19760,7 +19760,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -5.552788, y: 3.6389143, z: -207.77583, w: 0}
+  m_margin: {x: -127.444534, y: 3.6389143, z: -537.3508, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
