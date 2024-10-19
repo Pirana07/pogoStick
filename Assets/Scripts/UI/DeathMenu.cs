@@ -1,3 +1,4 @@
+using MaskTransitions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -5,7 +6,7 @@ using TMPro;
 public class DeathMenu : MonoBehaviour
 {
     [SerializeField] GameObject deathMenuUI;
-    [SerializeField] GameTimer gameTimer; // Reference to the GameTimer script
+    [SerializeField] GameTimer gameTimer; 
     [SerializeField] GameObject player; // Reference to the player GameObject
     [SerializeField] TextMeshProUGUI timerText; // Timer text in the death menu
     [SerializeField] ParticleSystem[] bloodParticles; // Blood particles array
@@ -56,13 +57,15 @@ public class DeathMenu : MonoBehaviour
     public void RestartLevel()
     {
         Time.timeScale = 1f; // Unpause the game
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload the current scene
+        TransitionManager.Instance.LoadLevel(SceneManager.GetActiveScene().name);
+
     }
 
     public void ReturnToMainMenu()
     {
         Time.timeScale = 1f; // Unpause the game
-        SceneManager.LoadScene("MainMenu"); // Load the main menu scene
+        TransitionManager.Instance.LoadLevel("MainMenu");
+        
     }
 
     public void QuitGame()

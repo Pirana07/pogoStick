@@ -1,3 +1,4 @@
+using MaskTransitions;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,9 +30,7 @@ public class PauseMenu : MonoBehaviour
    
     public void menu(){
         Time.timeScale = 1f;
-
-        SceneManager.LoadScene(0);
-        
+        TransitionManager.Instance.LoadLevel("MainMenu");
     }
     public void Resume(){
         _UI.SetActive(false);

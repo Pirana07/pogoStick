@@ -1,3 +1,4 @@
+using MaskTransitions;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,16 +8,18 @@ public class MainMenu : MonoBehaviour
 {
     public void StartGame()
     {
-        SceneManager.LoadScene("Levels"); 
+        TransitionManager.Instance.LoadLevel("Levels");
     }
     public void LoadLevel(string levelName)
     {
-        SceneManager.LoadScene(levelName); 
+        TransitionManager.Instance.LoadLevel(levelName);
+
     }
 
     public void OpenOptions()
     {
-        SceneManager.LoadScene("OptionsScene"); 
+        TransitionManager.Instance.LoadLevel("OptionsScene");
+
     }
 
     public void QuitGame()
