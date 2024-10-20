@@ -4,17 +4,27 @@ using TMPro;
 
 public class Playsc : MonoBehaviour
 {
-    [SerializeField] GameObject pogoStick;
-    [SerializeField] GameObject playUI;
-    [SerializeField] GameObject timer;
-    [SerializeField] TextMeshProUGUI recordTimer;
+    [SerializeField] 
+    GameObject pogoStick;
 
+    [SerializeField]
+     GameObject playUI;
+
+    [SerializeField] 
+    GameObject timer;
+
+    [SerializeField]
+     TextMeshProUGUI recordTimer;
+
+    [SerializeField]
+    PauseMenu pauseMenu;
     private string currentLevelName;
 
     void Start()
     {
         currentLevelName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         LoadRecordTime();
+        pauseMenu.enabled = false;
     }
 
     public void Play()
@@ -22,6 +32,8 @@ public class Playsc : MonoBehaviour
         pogoStick.SetActive(true);
         timer.SetActive(true);
         playUI.SetActive(false);
+        pauseMenu.enabled = true;
+
     }
 
     void LoadRecordTime()

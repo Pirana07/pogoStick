@@ -4,16 +4,32 @@ using UnityEngine.SceneManagement;
 
 public class FinishLine : MonoBehaviour
 {
-    [SerializeField] private GameObject finishMenuUI;
-    [SerializeField] private TextMeshProUGUI finalTimeText;
-    [SerializeField] private TextMeshProUGUI respawnCountText;
-    public TextMeshProUGUI boxAwardedText;
-    [SerializeField] private GameTimer gameTimer;
-    [SerializeField] private GameObject player;
-    // [SerializeField] private BoxManager boxManager;
-     [SerializeField] private BoxManager boxManager;
-    [SerializeField] private BoxDisplay boxDisplay;
+    [SerializeField] 
+    private GameObject finishMenuUI;
 
+    [SerializeField]
+     private TextMeshProUGUI finalTimeText;
+
+    [SerializeField] 
+    private TextMeshProUGUI respawnCountText;
+
+    [SerializeField] 
+    private GameTimer gameTimer;
+
+    [SerializeField] 
+    private GameObject player;
+
+    // [SerializeField] private BoxManager boxManager;
+     [SerializeField]
+      private BoxManager boxManager;
+
+    [SerializeField]
+     private BoxDisplay boxDisplay;
+
+      [SerializeField]
+    PauseMenu pauseMenu;
+
+    public TextMeshProUGUI boxAwardedText;
 
     public int respawnCount = 0;
     // private BoxManager.BoxType awardedBox;
@@ -50,6 +66,7 @@ public class FinishLine : MonoBehaviour
         DisablePlayer();
         // UpdateUI();
         finishMenuUI.SetActive(true);
+        pauseMenu.enabled = false;
          boxDisplay.UpdateAwardedKeysUI();
             boxManager.CollectKey();
 
