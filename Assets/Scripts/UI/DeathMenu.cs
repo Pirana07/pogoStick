@@ -1,3 +1,4 @@
+using System.Collections;
 using MaskTransitions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,22 +8,27 @@ public class DeathMenu : MonoBehaviour
 {
     [SerializeField]
      GameObject deathMenuUI;
-
+//
     [SerializeField] 
     GameTimer gameTimer; 
-
+//
     [SerializeField] 
     GameObject player; // Reference to the player GameObject
-
+//
     [SerializeField]
      TextMeshProUGUI timerText; // Timer text in the death menu
-
+//
     [SerializeField] 
     ParticleSystem[] bloodParticles; // Blood particles array
-
+//
     [SerializeField]
      PauseMenu pauseMenu; 
-
+//
+    [SerializeField]
+    CircleCollider2D colider;
+//
+    [SerializeField]
+    SpriteRenderer spriteRenderer;
      Vector3 lastPosition; // Last position to restore
      FinishLine finishLine; // Reference to the FinishLine script
 
@@ -64,7 +70,10 @@ public class DeathMenu : MonoBehaviour
             }
         }
 
-        gameTimer.ResetTimer(); // Continue the timer from the last saved point
+        gameTimer.ContinuteTimer(); // amis dedac vatire
+        colider.enabled = false;
+        StartCoroutine(ImmortalSeconds());
+        
     }
 
     public void RestartLevel()
@@ -108,5 +117,28 @@ public class DeathMenu : MonoBehaviour
                 particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             }
         }
+    }
+    private IEnumerator ImmortalSeconds()
+    {
+        float flickerDuration = 3f; //inspectorshi unda gamomechina
+        float flickerInterval = 0.2f; 
+        float elapsedTime = 0f;
+
+        while (elapsedTime < flickerDuration)
+        {
+            SetPlayerAlpha(spriteRenderer.color.a == 1f ? 0.5f : 1f);
+
+            yield return new WaitForSeconds(flickerInterval);
+            elapsedTime += flickerInterval;
+        }
+
+        SetPlayerAlpha(1f); 
+        colider.enabled = true; 
+    }
+    private void SetPlayerAlpha(float alpha)
+    { 
+         Color color = spriteRenderer.color;
+            color.a = alpha;
+            spriteRenderer.color = color;
     }
 }

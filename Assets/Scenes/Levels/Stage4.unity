@@ -12972,10 +12972,13 @@ MonoBehaviour:
   finishMenuUI: {fileID: 2107035131}
   finalTimeText: {fileID: 873033380}
   respawnCountText: {fileID: 1123181290}
-  boxAwardedText: {fileID: 1480317193}
   gameTimer: {fileID: 850426048}
   player: {fileID: 1322629882}
   boxManager: {fileID: 850426052}
+  boxDisplay: {fileID: 0}
+  pauseMenu: {fileID: 0}
+  boxAwardedText: {fileID: 1480317193}
+  respawnCount: 0
 --- !u!61 &295619483
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -30103,6 +30106,7 @@ MonoBehaviour:
   timerText: {fileID: 1054402988}
   bloodParticles:
   - {fileID: 787856760}
+  pauseMenu: {fileID: 0}
 --- !u!114 &850426052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30115,8 +30119,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e6422c7351ade44398419d55ca062e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxTypes: 
-  boxRarityWeights: []
+  keysCollected: 0
+  finishLine: {fileID: 0}
 --- !u!4 &858109219 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 977017827884190794, guid: 50551c92f2c54ce42b0f07b63555a314, type: 3}

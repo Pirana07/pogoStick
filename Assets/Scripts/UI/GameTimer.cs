@@ -45,6 +45,9 @@ public class GameTimer : MonoBehaviour
         // Store the elapsed time when stopping
         elapsedTime = Time.time - startTime;
     }
+    public void ContinuteTimer(){
+        isRunning = true;
+    }
 
     public void ResetTimer()
     {
