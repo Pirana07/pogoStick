@@ -7,9 +7,10 @@ public class PogoStickController : MonoBehaviour
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private float _groundCheckRadius = 0.2f;
     [SerializeField] private LayerMask _groundLayer;
-    [SerializeField] private ParticleSystem _groundImpactParticles; // მიწაზე შეჯახების ნაწილაკები
+    [SerializeField] private ParticleSystem _groundImpactParticles;
+    [SerializeField] private Animator _animator;
 
-
+    [SerializeField] private float _preGroundCheckDistance = 1.0f; // Distance to predict ground
     private Rigidbody2D _rb;
     private bool _isGrounded;
 
@@ -33,6 +34,10 @@ public class PogoStickController : MonoBehaviour
         {
             Jump();
         }
+
+        PredictGroundContact();
+        _animator.SetBool("IsGrounded", _isGrounded);
+        _animator.SetFloat("VerticalVelocity", _rb.velocity.y);
     }
 
     void Jump()
@@ -61,6 +66,16 @@ public class PogoStickController : MonoBehaviour
         }
     }
 
+    void PredictGroundContact()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(_groundCheck.position, Vector2.down, _preGroundCheckDistance, _groundLayer);
+
+        if (hit.collider != null && !_isGrounded && _rb.velocity.y < 0)
+        {
+            _animator.SetTrigger("PrepareForLanding");
+        }
+    }
+
     void SpawnGroundImpactParticles()
     {
         if (_groundImpactParticles != null)
@@ -70,7 +85,9 @@ public class PogoStickController : MonoBehaviour
         }
     }
 
-  
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(_groundCheck.position, _groundCheck.position + Vector3.down * _preGroundCheckDistance);
+    }
 }
-
-
