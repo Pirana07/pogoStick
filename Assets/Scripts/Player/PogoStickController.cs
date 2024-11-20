@@ -8,9 +8,9 @@ public class PogoStickController : MonoBehaviour
     [SerializeField] private float _groundCheckRadius = 0.2f;
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private ParticleSystem _groundImpactParticles;
-    [SerializeField] private Animator _animator;
+    [SerializeField] private Animator _anim;
+    [SerializeField] private CameraFollow _cameraFollow;
 
-    [SerializeField] private float _preGroundCheckDistance = 1.0f; // Distance to predict ground
     private Rigidbody2D _rb;
     private bool _isGrounded;
 
@@ -33,17 +33,20 @@ public class PogoStickController : MonoBehaviour
         if (_isGrounded)
         {
             Jump();
+             _anim.SetBool("IsGrounded", false);
+        }else{
+            _anim.SetBool("IsGrounded", true);
         }
 
-        PredictGroundContact();
-        _animator.SetBool("IsGrounded", _isGrounded);
-        _animator.SetFloat("VerticalVelocity", _rb.velocity.y);
+        
     }
 
     void Jump()
     {
         Vector2 jumpDirection = transform.up;
         _rb.velocity = new Vector2(jumpDirection.x * jumpForce, jumpDirection.y * jumpForce);
+        _anim.SetTrigger("PrepareForLanding");
+
     }
 
     void RotateTowardsMouse()
@@ -63,18 +66,11 @@ public class PogoStickController : MonoBehaviour
         if (_isGrounded && !wasGrounded)
         {
             SpawnGroundImpactParticles();
+            _cameraFollow.TriggerLandingShake();
         }
     }
 
-    void PredictGroundContact()
-    {
-        RaycastHit2D hit = Physics2D.Raycast(_groundCheck.position, Vector2.down, _preGroundCheckDistance, _groundLayer);
-
-        if (hit.collider != null && !_isGrounded && _rb.velocity.y < 0)
-        {
-            _animator.SetTrigger("PrepareForLanding");
-        }
-    }
+    
 
     void SpawnGroundImpactParticles()
     {
@@ -85,9 +81,5 @@ public class PogoStickController : MonoBehaviour
         }
     }
 
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(_groundCheck.position, _groundCheck.position + Vector3.down * _preGroundCheckDistance);
-    }
+ 
 }
