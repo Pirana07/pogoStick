@@ -62,6 +62,9 @@ TagManager:
   - name: Actor
     uniqueID: 2977143149
     locked: 0
+  - name: Animal
+    uniqueID: 3304311769
+    locked: 0
   - name: front
     uniqueID: 445893009
     locked: 0
