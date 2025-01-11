@@ -19262,6 +19262,9 @@ MonoBehaviour:
   _ySmoothSpeed: 0.05
   _shakeDuration: 0.2
   _shakeMagnitude: 0.11
+  _manualMoveSpeed: 2
+  _manualMoveLimit: {x: 3, y: 3}
+  _manualReturnSpeed: 1
 --- !u!114 &519420034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52549,10 +52552,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: 'PogoStick '
       objectReference: {fileID: 0}
-    - target: {fileID: 2914210574864356098, guid: a0e5b66c4228d0340ac54be6cf5645e0, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4493014212779859123, guid: a0e5b66c4228d0340ac54be6cf5645e0, type: 3}
       propertyPath: deathMenu
       value: 
@@ -52596,6 +52595,10 @@ PrefabInstance:
     - target: {fileID: 4956985657320769162, guid: a0e5b66c4228d0340ac54be6cf5645e0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5125190536734229627, guid: a0e5b66c4228d0340ac54be6cf5645e0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.55
       objectReference: {fileID: 0}
     - target: {fileID: 6288661199341805233, guid: a0e5b66c4228d0340ac54be6cf5645e0, type: 3}
       propertyPath: _cameraFollow

@@ -8,27 +8,32 @@ public class DeathMenu : MonoBehaviour
 {
     [SerializeField]
      GameObject deathMenuUI;
-//
+
     [SerializeField] 
     GameTimer gameTimer; 
-//
+
     [SerializeField] 
     GameObject player; // Reference to the player GameObject
-//
+
     [SerializeField]
      TextMeshProUGUI timerText; // Timer text in the death menu
-//
+
     [SerializeField] 
     ParticleSystem[] bloodParticles; // Blood particles array
-//
+
     [SerializeField]
      PauseMenu pauseMenu; 
-//
+
     [SerializeField]
     CircleCollider2D colider;
-//
+
     [SerializeField]
     SpriteRenderer spriteRenderer;
+    //Sounds
+    [SerializeField]  AudioClip clickSound; 
+    [SerializeField]  AudioClip deathSound; 
+
+    [SerializeField]  AudioSource audioSource; 
      Vector3 lastPosition; // Last position to restore
      FinishLine finishLine; // Reference to the FinishLine script
 
@@ -40,6 +45,7 @@ public class DeathMenu : MonoBehaviour
 
     public void TriggerDeath(Vector3 respawnPosition)
     {
+        audioSource.PlayOneShot(deathSound);
         lastPosition = respawnPosition;
         Time.timeScale = 0f; // Pause the game
         gameTimer.StopTimer(); // Stop the timer
@@ -72,12 +78,20 @@ public class DeathMenu : MonoBehaviour
 
         gameTimer.ContinuteTimer(); // amis dedac vatire
         colider.enabled = false;
+        pauseMenu.enabled = true;
         StartCoroutine(ImmortalSeconds());
-        
+         if (clickSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(clickSound);
+            }
     }
 
     public void RestartLevel()
     {
+         if (clickSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(clickSound);
+            }
         Time.timeScale = 1f; // Unpause the game
         TransitionManager.Instance.LoadLevel(SceneManager.GetActiveScene().name);
 
@@ -85,6 +99,10 @@ public class DeathMenu : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
+         if (clickSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(clickSound);
+            }
         Time.timeScale = 1f; // Unpause the game
         TransitionManager.Instance.LoadLevel("MainMenu");
         
@@ -92,6 +110,10 @@ public class DeathMenu : MonoBehaviour
 
     public void QuitGame()
     {
+         if (clickSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(clickSound);
+            }
         Application.Quit();
     }
 

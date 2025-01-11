@@ -4,20 +4,18 @@ using TMPro;
 
 public class Playsc : MonoBehaviour
 {
-    [SerializeField] 
-    GameObject pogoStick;
+    [SerializeField] GameObject pogoStick;
 
-    [SerializeField]
-     GameObject playUI;
+    [SerializeField] GameObject playUI;
 
-    [SerializeField] 
-    GameObject timer;
+    [SerializeField] GameObject timer;
 
-    [SerializeField]
-     TextMeshProUGUI recordTimer;
+    [SerializeField] TextMeshProUGUI recordTimer;
 
-    [SerializeField]
-    PauseMenu pauseMenu;
+    [SerializeField] PauseMenu pauseMenu;
+    [SerializeField] private AudioClip clickSound; 
+    [SerializeField] private AudioSource audioSource; 
+
     private string currentLevelName;
 
     void Start()
@@ -33,6 +31,10 @@ public class Playsc : MonoBehaviour
         timer.SetActive(true);
         playUI.SetActive(false);
         pauseMenu.enabled = true;
+         if (clickSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(clickSound);
+            }
 
     }
 

@@ -2,14 +2,20 @@ using UnityEngine;
 
 public class PogoStickController : MonoBehaviour
 {
+    [Header("Jump")]
     [SerializeField] private float jumpForce = 10f;
     [SerializeField] private float _rotationSpeed = 5f;
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private float _groundCheckRadius = 0.2f;
     [SerializeField] private LayerMask _groundLayer;
+    [Header("Effects")]
     [SerializeField] private ParticleSystem _groundImpactParticles;
     [SerializeField] private Animator _anim;
     [SerializeField] private CameraFollow _cameraFollow;
+
+    [Header("Sound Effects")]
+    [SerializeField] private AudioClip landingSound; 
+    [SerializeField] private AudioSource audioSource;
 
     private Rigidbody2D _rb;
     private bool _isGrounded;
@@ -23,6 +29,11 @@ public class PogoStickController : MonoBehaviour
             _groundImpactParticles.Stop();
             _groundImpactParticles.Clear();
         }
+
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+        }
     }
 
     void Update()
@@ -33,12 +44,12 @@ public class PogoStickController : MonoBehaviour
         if (_isGrounded)
         {
             Jump();
-             _anim.SetBool("IsGrounded", false);
-        }else{
+            _anim.SetBool("IsGrounded", false);
+        }
+        else
+        {
             _anim.SetBool("IsGrounded", true);
         }
-
-        
     }
 
     void Jump()
@@ -46,7 +57,6 @@ public class PogoStickController : MonoBehaviour
         Vector2 jumpDirection = transform.up;
         _rb.velocity = new Vector2(jumpDirection.x * jumpForce, jumpDirection.y * jumpForce);
         _anim.SetTrigger("PrepareForLanding");
-
     }
 
     void RotateTowardsMouse()
@@ -66,11 +76,10 @@ public class PogoStickController : MonoBehaviour
         if (_isGrounded && !wasGrounded)
         {
             SpawnGroundImpactParticles();
+            PlayLandingSound();
             _cameraFollow.TriggerLandingShake();
         }
     }
-
-    
 
     void SpawnGroundImpactParticles()
     {
@@ -81,5 +90,11 @@ public class PogoStickController : MonoBehaviour
         }
     }
 
- 
+    void PlayLandingSound()
+    {
+        if (landingSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(landingSound); 
+        }
+    }
 }
