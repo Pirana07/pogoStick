@@ -10808,7 +10808,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '**Some one Entered the game**'
+  m_text: '**Someone Entered the game**'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2f14f86a84800004dbf1eafc102f18e6, type: 2}
   m_sharedMaterial: {fileID: 2057369216975001860, guid: 2f14f86a84800004dbf1eafc102f18e6, type: 2}
