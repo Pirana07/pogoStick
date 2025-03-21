@@ -16,6 +16,8 @@ public class DialogSystem : MonoBehaviour
     [SerializeField] private AudioClip typingSound; // Typing sound
     [SerializeField] private AudioClip skipSound; // Skip sound
     [SerializeField] private AudioSource audioSource; // AudioSource component
+    [SerializeField] private Animator _animator; // Animator
+
 
     private int currentLineIndex;
     private bool isTyping;
@@ -26,6 +28,7 @@ public class DialogSystem : MonoBehaviour
 
     void Start()
     {
+        _animator.enabled = false;
         dialogBox.SetActive(true);
         originalScale = playerImage.localScale;
     }
@@ -70,6 +73,7 @@ public class DialogSystem : MonoBehaviour
             EndDialog();
             PlayUI.SetActive(true);
             audioSource.Stop();
+            _animator.enabled = true;
         }
     }
 
@@ -78,6 +82,7 @@ public class DialogSystem : MonoBehaviour
         dialogBox.SetActive(false);
         StopPlayerAnimation();
         audioSource.Stop();
+      
     }
 
     private IEnumerator TypeLine(string line)

@@ -96,6 +96,16 @@ public class DeathMenu : MonoBehaviour
         TransitionManager.Instance.LoadLevel(SceneManager.GetActiveScene().name);
 
     }
+   
+    public void NextLevel(){
+         if (clickSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(clickSound);
+            }
+        Time.timeScale = 1f; // Unpause the game
+        TransitionManager.Instance.LoadLevel("Stage1");
+
+    }
 
     public void ReturnToMainMenu()
     {
